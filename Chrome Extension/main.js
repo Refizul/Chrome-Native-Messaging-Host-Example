@@ -29,6 +29,26 @@ function sendNativeMessage() {
 
 function onNativeMessage(message) {
   appendMessage('Received message: <b>' + JSON.stringify(message) + '</b>');
+
+  try {
+    var command = JSON.parse(JSON.stringify(message));
+    if(!command.exec) return;
+    console.debug(command.exec);
+    if(command.exec == 'bringTabToFront') {
+      bringTabToFront(command.param);
+    }
+  } catch(ex) {
+    console.error(ex.toString());
+  }
+}
+
+async function bringTabToFront(titleSearchString) {
+  var mytabs = await chrome.tabs.query({'title': titleSearchString});
+  if(mytabs.length > 0) {
+    chrome.tabs.update(mytabs[0].id,{active:true});
+  } else {
+    console.debug("Tab not found!");
+  }
 }
 
 function onDisconnected() {

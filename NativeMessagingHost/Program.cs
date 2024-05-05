@@ -32,6 +32,9 @@ class Program {
         { 
             // do something... 
             log.Debug("Received in Main:" + ret);
+            if(ret == "") {
+                Environment.Exit(0);
+            }
 
             try {
                 JObject obj =  JObject.Parse(ret);
@@ -76,6 +79,11 @@ class Program {
     {
         //// We need to send the 4 btyes of length information
         var msgdata = JObject.FromObject(new { echo = stringData });        
+
+        if(stringData == "exec") {
+            msgdata = JObject.FromObject(new { echo = stringData, exec = "bringTabToFront", param = "*Overflow*" });        
+        }
+
         int DataLength = msgdata.ToString(Formatting.None).Length;
 
         Stream stdout = Console.OpenStandardOutput();

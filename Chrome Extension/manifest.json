@@ -8,8 +8,18 @@
       "default_title": "Native Messaging Example",
       "default_popup": "main.html"
     },
+    "background": {
+      "service_worker": "background.js"
+    },
     "icons": {
       "128": "icon-128.png"
     },
-    "permissions": ["nativeMessaging"]
+    "host_permissions": [
+      "http://*/*",
+      "https://*/*"
+    ],
+    "content_security_policy": {
+      "extension_pages":"script-src 'self' 'wasm-unsafe-eval'; object-src 'self'" 
+    },
+    "permissions": ["nativeMessaging","tabs","scripting"]
   }
